@@ -6,8 +6,9 @@ download.file("http://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_po
 dat <- read.table(unz('exdata_data_household_power_consumption.zip', 'household_power_consumption.txt'), header=T, sep = ';', colClasses = c("factor","factor",rep("numeric", 7)), na.strings = '?')
 
 dat$DateNew <- strptime(dat$Date, format= "%d/%m/%Y")
-format(dat$DateNew, format="%Y-%m-%d")
 limitedData <- subset(dat, DateNew=='2007-02-01' | DateNew=='2007-02-02')
+limitedData$DateTimeNew <- paste(limitedData$Date, limitedData$Time)
+limitedData$DateTimeNew <- strptime(limitedData$DateTimeNew, format= "%d/%m/%Y %H:%M:%S")
 
 png(file = "plot4.png", width = 480, height = 480)
 par(mfrow = c(2,2))

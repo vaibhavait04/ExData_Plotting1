@@ -5,10 +5,11 @@ download.file("http://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_po
 dat <- read.table(unz('exdata_data_household_power_consumption.zip', 'household_power_consumption.txt'), header=T, sep = ';', colClasses = c("factor","factor",rep("numeric", 7)), na.strings = '?')
 
 dat$DateNew <- strptime(dat$Date, format= "%d/%m/%Y")
-format(dat$DateNew, format="%Y-%m-%d")
 limitedData <- subset(dat, DateNew=='2007-02-01' | DateNew=='2007-02-02')
 
 png(file = "plot3.png", width = 480, height = 480)
+limitedData$DateTimeNew <- paste(limitedData$Date, limitedData$Time)
+limitedData$DateTimeNew <- strptime(limitedData$DateTimeNew, format= "%d/%m/%Y %H:%M:%S")
 plot(limitedData$DateTimeNew, limitedData$Sub_metering_1, ylab = "Energy Sub Metering", xlab = "", main ="")
 points(limitedData$DateTimeNew, limitedData$Sub_metering_2, col ="red", type = "l", lty =1)
 points(limitedData$DateTimeNew, limitedData$Sub_metering_3, col ="blue", type = "l", lty =1)
